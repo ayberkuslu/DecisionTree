@@ -19,30 +19,30 @@ public class AnimalPredictor {
 		Scanner s = new Scanner(System.in);
 		do {
 			if (cur.isExternal()) {
-					System.out.println("Bence tuttugunuz hayvan " + cur.getElement());
-					System.out.println("Tahminim dogru mu?");
+					System.out.println("I think  your animal is " + cur.getElement());
+					System.out.println("Is it correct ?");
 					String ans = s.nextLine();
-					if (ans.equals("evet")) {
+					if (ans.equals("yes") || ans.equals("evet")) {
 						System.out.println("Oley!");
 						return;
 					}
 				else { //have to update DT
-					System.out.println("Ne tutmustunuz?");
+					System.out.println("What was it?");
 					String h = s.nextLine();
-					System.out.println("Bana " + h + "'yi " + cur.getElement() + "'den ayirmami saglayacak bir evet/hayir sorusu soyler misiniz?");
-					System.out.println("(Evet cevabi " + h + " icin olmalidir.)");
+					System.out.println("Can you tell me a yes/no question to decide " + h + "'or " + cur.getElement() + "  ?");
+					System.out.println("(Yes answer should be for" + h + " .)");
 					String q = s.nextLine();
 					DT.insertYes(cur,h);
 					DT.insertNo(cur,cur.getElement());
 					cur.setElement(q+"?");
-					System.out.println(h + " 'yi ogrendim.");
+					System.out.println( "I learned "+ h  );
 					return;
 				}
 			}
 			else {
 				System.out.println(cur.getElement());
 				String ans = s.nextLine();
-				if (ans.equals("evet"))
+				if (ans.equals("evet") || ans.equals("yes"))
 					cur = cur.getLeft();
 				else
 					cur = cur.getRight();				
@@ -86,9 +86,9 @@ public class AnimalPredictor {
 
 		while(i < list.size()) {
 			
-			 if(list.get(i).equals("evet")) {
+			 if(list.get(i).equals("evet") || list.get(i).equals("yes")) {
 			temp = temp.getLeft();
-			}else if(list.get(i).equals("hayir")) {
+			}else if(list.get(i).equals("hayir") || list.get(i).equals("no")) {
 				temp=temp.getRight();
 			}
 			else if(!list.get(i).equals(temp.getElement())){	
@@ -102,41 +102,41 @@ public class AnimalPredictor {
 	//the main method
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
-		System.out.println("Yuklemek istediginiz bir dosya var mi?");
+		System.out.println("Is there any file that you want to upload?");
 		String ans = s.nextLine();
-		if (ans.equals("evet")) {
-			System.out.println("Dosya ismi :");
+		if (ans.equals("evet") || ans.equals("yes")) {
+			System.out.println("File name :");
 			if (!DT.load(s.nextLine()))
-				System.out.println("Dosya yuklenemedi");
+				System.out.println("File could not uploaded");
 		}
 		
 		if (DT.size() == 0) {
-			System.out.println("Su anda hic hayvan bilmiyorum.");
-			System.out.println("Bana bir hayvan ismi soyler misiniz?");
+			System.out.println("I dont know any animal now.");
+			System.out.println("Can you tell me a animal name?");
 			String h1 = s.nextLine();
-			System.out.println("Bir tane daha..");
+			System.out.println("One more..");
 			String h2 = s.nextLine();
-			System.out.println("Bana  " + h1 + "'yi " + h2 + "'den ayirmami saglayacak bir evet/hayir sorusu soyler misiniz?");
-			System.out.println("(Evet cevabi " + h1 + " icin olmalidir.)");
+			System.out.println("Can you tell me a yes/no question to decide " + h1 + "'or " + h2 + "  ?");
+			System.out.println("(Yes answer should be for" + h1 + " .)");
 			String s1 = s.nextLine();
 			Node R = DT.addRoot(s1);
 			DT.insertYes(R, h1);
 			DT.insertNo(R, h2);
 		}
 		String c ="";
-		while (!c.equals("hayir")) {
-			System.out.println("Aklinizdan bir hayvan tutun, ben onu tahmin etmeye calisacagim.");
-			System.out.println("Hazir olunca enter'a basin lutfen.");
+		while (!c.equals("hayir") || !c.equals("no")) {
+			System.out.println("Pick a animal in your mind, i will try to find it.");
+			System.out.println("Press enter when you are ready");
 			s.nextLine();
 			guess_and_update(DT);
-			System.out.println("Bir daha oynamak ister misiniz?");
+			System.out.println("Do you want to play again ?");
 			c = s.nextLine();		
 		}
 		
-		System.out.println("Ogrenilen karar agacini kaydetmek ister misiniz?");
+		System.out.println("Do you want to save learned decision tree.");
 		ans = s.nextLine();
-		if (ans.equals("evet")) {
-			System.out.println("Dosya ismi :");
+		if (ans.equals("evet") || ans.equals("yes")) {
+			System.out.println("File name :");
 			DT.save(s.nextLine());
 		}			
 	}
